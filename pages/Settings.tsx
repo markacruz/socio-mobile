@@ -1,6 +1,15 @@
+import { useContext } from "react";
 import { View, Pressable, Text } from "react-native";
+import { UserContext } from "../store/UserContext";
 
-export const Settings = () => {
+export const Settings = ({ navigation }) => {
+  const userContext = useContext(UserContext);
+
+  const handleSignOut = () => {
+    userContext.signOut();
+    navigation.navigate("Log In");
+  };
+
   return (
     <View
       style={{
@@ -44,6 +53,7 @@ export const Settings = () => {
           marginVertical: 10,
           backgroundColor: "#DADDE1",
         }}
+        onPress={handleSignOut}
       >
         <Text style={{ textAlign: "center", fontWeight: "bold" }}>
           Sign Out

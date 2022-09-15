@@ -8,7 +8,7 @@ import {
 } from "react-native";
 import { Post } from "../components/Post";
 import { UserContext } from "../store/UserContext";
-import { getPosts } from "../services/httpClient";
+import { getPosts, getSuggestedUsers } from "../services/httpClient";
 import { CreatePost } from "../components/CreatePost";
 import { Header } from "../components/Header";
 
@@ -17,6 +17,7 @@ export const Home = () => {
   const [postDescription, setPostDescription] = useState("");
   const [modalVisible, setModalVisible] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
+  const [searchData, setSearchData] = useState([]);
 
   useEffect(() => {
     const fetchPosts = async () => {
@@ -25,6 +26,16 @@ export const Home = () => {
     };
     fetchPosts().then((response: any) => {
       userContext.getTimelineData(response[0]);
+    });
+  }, []);
+
+  useEffect(() => {
+    const fetchSuggestedUsers = async () => {
+      const suggested = await getSuggestedUsers(userContext.userData._id);
+      return suggested;
+    };
+    fetchSuggestedUsers().then((response: any) => {
+      setSearchData(response.data);
     });
   }, []);
 

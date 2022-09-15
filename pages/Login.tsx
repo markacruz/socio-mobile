@@ -25,6 +25,7 @@ export const Login = ({ navigation }: Props) => {
     if (res) {
       userContext.login(res.data);
     }
+    setPassword("");
   };
 
   useEffect(() => {

@@ -16,8 +16,9 @@ export const Header = ({ searchQuery, setSearchQuery, navigation }: Props) => {
         justifyContent: "center",
         alignItems: "center",
         borderBottomWidth: 1,
-        borderBottomColor: "gray",
+        borderBottomColor: "#dcdcdc",
         marginBottom: 5,
+        backgroundColor: "#a9a9a9",
       }}
     >
       <Image

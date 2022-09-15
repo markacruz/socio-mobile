@@ -24,11 +24,11 @@ export const Post = ({
   const userContext = useContext(UserContext);
 
   const deletePostHandler = (postId: string, userId: string) => {
-    const deletePost: any = async () => {
+    const postDelete: any = async () => {
       const post = await deletePost(postId, userId);
       return post;
     };
-    deletePost().then((response: any) => {
+    postDelete().then((response: any) => {
       console.log(response);
     });
   };
@@ -40,7 +40,7 @@ export const Post = ({
         paddingVertical: 10,
         paddingHorizontal: 20,
         marginBottom: 8,
-        borderRadius: 5,
+        borderRadius: 20,
         marginHorizontal: 10,
       }}
     >
@@ -58,7 +58,12 @@ export const Post = ({
           </Text>
         </View>
         <Pressable
-          style={{ marginLeft: 125 }}
+          style={{
+            marginLeft: 125,
+            padding: 3,
+            backgroundColor: "#DADDE1",
+            borderRadius: 5,
+          }}
           onPress={() => deletePostHandler(postId, userContext.userData._id)}
         >
           <Ionicons name="trash-outline" size={24} color="red" />
@@ -73,8 +78,10 @@ export const Post = ({
           alignItems: "center",
         }}
       >
-        <LikeButton postId={postId} />
-        <Text style={{ marginLeft: 5, marginRight: 15 }}>{likes.length}</Text>
+        <LikeButton postId={postId} likes={likes} />
+        <Text style={{ marginLeft: 10, color: "dimgray" }}>
+          Liked by {likes.length} users
+        </Text>
         {/* <CommentButton />
             <Text style={{marginLeft: 5, marginRight: 15}}>
             </Text> */}

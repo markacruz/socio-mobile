@@ -86,13 +86,9 @@ export const newPost = (userId: string, desc: string) => {
 };
 
 export const deletePost = (postId: string, userId: string) => {
-  const post = {
-    userId: userId,
-  };
-
   return new Promise(function (resolve, reject) {
     axios
-      .delete(httpUrl + `/posts/${postId}`, post)
+      .delete(httpUrl + `/posts/${postId}`, { userId: userId })
       .then((response) => {
         if (response.request.status === 200) {
           resolve(response);
@@ -104,10 +100,10 @@ export const deletePost = (postId: string, userId: string) => {
   });
 };
 
-export const addOrRemoveLike = (id: string) => {
+export const addOrRemoveLike = (postId: string, userId: string) => {
   return new Promise(function (resolve, reject) {
     axios
-      .put(httpUrl + `/posts/${id}/like`)
+      .put(httpUrl + `/posts/${postId}/like`, { userId })
       .then((response) => {
         if (response.request.status === 200) {
           resolve(response);
@@ -123,6 +119,21 @@ export const getUserPosts = (username: string) => {
   return new Promise(function (resolve, reject) {
     axios
       .get(httpUrl + `/posts/profile/${username}`)
+      .then((response) => {
+        if (response.request.status === 200) {
+          resolve(response);
+        }
+      })
+      .catch((err) => {
+        reject(err);
+      });
+  });
+};
+
+export const getSuggestedUsers = (userId: string) => {
+  return new Promise(function (resolve, reject) {
+    axios
+      .get(httpUrl + `/users/${userId}/suggested`)
       .then((response) => {
         if (response.request.status === 200) {
           resolve(response);

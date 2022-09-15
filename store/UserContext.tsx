@@ -1,4 +1,5 @@
 import { createContext, useState } from "react";
+import { profileMock } from "../mock/userContext/profile";
 
 export const UserContext = createContext({
   isSignedIn: false,
@@ -6,7 +7,8 @@ export const UserContext = createContext({
   timelineData: [],
   login: (data: {}) => {},
   getTimelineData: (data: []) => {},
-  addOrRemoveLike: (userId: string, postId: string) => {},
+  addOrRemoveLike: (postId: string) => {},
+  signOut: () => {},
 });
 
 type Props = {
@@ -27,17 +29,23 @@ const UserContextProvider = ({ children }: Props) => {
     setTimelineData(data);
   };
 
-  const likeAndDislikeHandler = (userId: string, postId: string) => {
+  const likeAndDislikeHandler = (postId: string) => {
     const newArr = timelineData.map((post) => {
       if (post._id === postId) {
-        if (post.likes.includes(userId)) {
-          return post.likes.filter((like) => like !== userId);
+        if (post.likes.includes(userData._id)) {
+          return post.likes.filter((like) => like !== userData._id);
         } else {
-          return post.likes.push(userId);
+          return post.likes.push(userData._id);
         }
       }
     });
     setTimelineData(newArr);
+  };
+
+  const signOutHandler = () => {
+    setIsSignedIn(false);
+    setTimelineData([]);
+    setUserData({});
   };
 
   const value = {
@@ -47,6 +55,7 @@ const UserContextProvider = ({ children }: Props) => {
     login: loginHandler,
     getTimelineData: timelineDataHandler,
     addOrRemoveLike: likeAndDislikeHandler,
+    signOut: signOutHandler,
   };
 
   return <UserContext.Provider value={value}>{children}</UserContext.Provider>;
